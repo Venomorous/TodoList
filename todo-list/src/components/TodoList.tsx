@@ -1,14 +1,16 @@
 import { useState } from "react";
 
 import "../TodoList.css";
+import { ACTIONS } from "../App";
 
 interface TodoListProps {
-    todos: { id: number; name: string }[];
-    onDeleteTodo: (id: number) => void;
-    onCopyTodo: (data: string) => void;
+    todos: { id: number; name: string; complete: boolean }[];
+    dispatch: React.Dispatch<any>;
+    // onDeleteTodo: (id: number) => void;
+    // onCopyTodo: (data: string) => void;
 }
 
-function TodoList({ todos, onDeleteTodo, onCopyTodo }: TodoListProps) {
+function TodoList({ todos, dispatch }: TodoListProps) {
     //-----------------ul,li VARIATION-----------------//
 
     // const showtodos = () => {
@@ -28,23 +30,51 @@ function TodoList({ todos, onDeleteTodo, onCopyTodo }: TodoListProps) {
             <button
                 key={todo.id}
                 className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                style={{ cursor: "default" }}
+                style={{
+                    cursor: "default",
+                    // backgroundColor: todo.complete ? "#25c70c" : "",
+                }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)} // Call onDeleteTodo with the todo id
             >
-                {todo.name}
+                <span className={`text- ${todo.complete ? "completed" : ""}`}>
+                    {todo.name}
+                </span>
                 {hoveredIndex === index && (
-                    <div className="d-flex" title="Copy to Clipboard">
+                    <div className="d-flex" title="Todo options">
+                        <span
+                            className="material-symbols-outlined"
+                            title="Mark as done"
+                            onClick={() =>
+                                dispatch({
+                                    type: ACTIONS.TOGGLE_TODO,
+                                    payload: { id: todo.id },
+                                })
+                            }
+                        >
+                            done
+                        </span>
                         <span
                             className="material-symbols-outlined pointer-cursor"
-                            onClick={() => onCopyTodo(todo.name)}
+                            title="Copy Todo"
+                            onClick={() =>
+                                dispatch({
+                                    type: ACTIONS.COPY_TODO,
+                                    payload: { id: todo.id },
+                                })
+                            }
                         >
                             content_copy
                         </span>
                         <span
                             className="material-symbols-outlined pointer-cursor"
                             title="Delete Todo"
-                            onClick={() => onDeleteTodo(todo.id)}
+                            onClick={() =>
+                                dispatch({
+                                    type: ACTIONS.REMOVE_TODO,
+                                    payload: { id: todo.id },
+                                })
+                            }
                         >
                             delete
                         </span>
@@ -54,7 +84,46 @@ function TodoList({ todos, onDeleteTodo, onCopyTodo }: TodoListProps) {
         ));
     };
 
+    const toggleComplete = (todo: { id: number }) => {
+        const action = {
+            type: ACTIONS.TOGGLE_TODO,
+            payload: {
+                id: todo.id,
+            },
+        };
+        dispatch(action);
+    };
+
     return (
+        // <div>
+        //     {todos.map((todo) => (
+        //         <div key={todo.id}>
+        //             <span style={{ color: todo.complete ? "#AAA" : "#000" }}>
+        //                 {todo.name}
+        //             </span>
+        //             <button
+        //                 onClick={() =>
+        //                     dispatch({
+        //                         type: ACTIONS.TOGGLE_TODO,
+        //                         payload: { id: todo.id },
+        //                     })
+        //                 }
+        //             >
+        //                 Toggle
+        //             </button>
+        //             <button
+        //                 onClick={() =>
+        //                     dispatch({
+        //                         type: ACTIONS.REMOVE_TODO,
+        //                         payload: { id: todo.id },
+        //                     })
+        //                 }
+        //             >
+        //                 Delete
+        //             </button>
+        //         </div>
+        //     ))}
+        // </div>
         <div className="mt-4 list-group">
             {/* <ul className="list-group">{showtodos()}</ul> */}
             {showtodos()}

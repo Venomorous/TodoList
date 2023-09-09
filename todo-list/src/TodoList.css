@@ -17,6 +17,12 @@
     transform: scale(1.1); /* Slight scale up effect on hover */
 }
 
+.completed {
+    color: #aaa;
+    text-decoration: line-through;
+    font-style: italic;
+}
+
 .pointer-cursor {
     cursor: pointer;
 }
