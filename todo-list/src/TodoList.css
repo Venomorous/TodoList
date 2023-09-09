@@ -1,0 +1,22 @@
+/* .material-symbols-outlined {
+    transition: box-shadow 0.2s ease; 
+
+.material-symbols-outlined:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1);
+} */
+
+.material-symbols-outlined {
+    position: relative;
+    padding: 4px; /* Add padding to create space for the circle */
+    border-radius: 50%; /* Make it a circle */
+    transition: background-color 0.2s ease, transform 0.2s ease; /* Add transitions for smooth effects */
+}
+
+.material-symbols-outlined:hover {
+    background-color: lightgray; /* Change background color on hover */
+    transform: scale(1.1); /* Slight scale up effect on hover */
+}
+
+.pointer-cursor {
+    cursor: pointer;
+}
